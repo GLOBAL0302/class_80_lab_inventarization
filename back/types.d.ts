@@ -15,7 +15,7 @@ export interface IItems{
   locations_id:string
   title:string,
   description:string,
-  image:string,
+  image:string | null,
   date:string
 }
 

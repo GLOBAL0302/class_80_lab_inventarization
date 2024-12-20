@@ -65,8 +65,11 @@ locationsRouter.delete("/:id", async (req,res,next)=>{
   const id = req.params.id;
   try {
     const connection = await mySqlDb.getConnection();
-    await connection.query('DELETE FROM locations WHERE id = ?', [id]);
-
+    const [result] =  await connection.query('DELETE FROM locations WHERE id = ?', [id]);
+    const deleteLocation = result  as ResultSetHeader;
+    if(deleteLocation.affectedRows === 0 ){
+      res.status(404).send({error:"No location found"});
+    }
     res.status(200).send("Successfully deleted From Locations!");
   }catch (err){
     next(err);

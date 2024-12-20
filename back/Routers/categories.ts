@@ -34,7 +34,6 @@ categoriesRouter.get("/:id", async (req,res,next)=>{
 });
 
 categoriesRouter.post("/", async (req,res, next)=>{
-
   try {
     if(!req.body.title){
       res.status(400).send({error:"Title is required"});
@@ -43,8 +42,6 @@ categoriesRouter.post("/", async (req,res, next)=>{
       title: req.body.title,
       description: req.body.description,
     }
-
-
 
     const connection = await mysqlDb.getConnection();
     const [result] = await connection.query
@@ -68,7 +65,11 @@ categoriesRouter.delete("/:id", async (req,res,next)=>{
   try{
     const id = req.params.id;
     const connection = await mysqlDb.getConnection();
-    await connection.query('DELETE FROM categories WHERE id = ?', [id]);
+    const[result] =  await connection.query('DELETE FROM categories WHERE id = ?', [id]);
+    const deleteCategory = result as ResultSetHeader
+    if(deleteCategory.affectedRows === 0 ){
+      res.status(404).send({error:"No category found"});
+    }
     res.status(200).send("Successfully deleted from categories!");
   }catch(err){
     next(err);
