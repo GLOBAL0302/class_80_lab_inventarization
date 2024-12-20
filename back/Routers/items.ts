@@ -1,7 +1,6 @@
 import express from "express";
 import mySqlDb from '../mySqlDb';
 import {IItems} from '../types';
-import {strict} from 'node:assert';
 import {ResultSetHeader} from 'mysql2';
 import {imagesUpload} from '../multer';
 
