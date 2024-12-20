@@ -16,10 +16,9 @@ app.use('/categories', categoriesRouter);
 app.use('/locations', locationsRouter);
 
 
+
 const run = async()=>{
-
   await MySqlDb.init();
-
   app.listen(port,()=>{
     console.log(`Server running on port http://localhost:${port}`);
   });
